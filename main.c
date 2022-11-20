@@ -4,68 +4,76 @@
 #include "node.h"
 #include "tree.h"
 #include "Functions.h"
-#include <windows.h>
 #include <unistd.h>
 #define BUFFER_SIZE 100
-
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "node.h"
-#include "tree.h"
-#include "Functions.h"
-#include <windows.h>
-#include <unistd.h>
 #include <time.h>
 #define BUFFER_SIZE 100
 
 
-int main(int argc, char* argv[]) {
-    //printf("argc = %d argv = %s \n",argc,*argv);
-    char *directory_dico[TAILLE_MAX];
-    find_dico(argv,&directory_dico);
-    printf("%s\n",directory_dico);
+int main() {
+
+
+    char test[size_word]="";
+    t_tree temp_tree;
+    p_letter_node temp_node;
+
+    int random;
+    char directory_dico[size_word] ="C:\\Users\\jerem\\CLionProjects\\projet c UwU\\dico.txt"; // PUT ABSOLUTE PATH HERE OF dico.txt
+
+    int buffer=0;
     t_groot g =create_tree(directory_dico);
-    p_letter_node temp;
-    char test[TAILLE_MAX]="";
-    srand(time(NULL));
-    for (int i = 0; i < 30; i++){
-        printf("%d ", rand() % 30);
-    }
-    printf("\n");
-    random_base_sentence(g,test);
-    printf("\nPhrase aleatoire: %s\n",test);
-
-    //printf("%d", WordType("abjectement     abjectement     Adv"));
-    /*
-    t_tree t;
-    t.root= CreateNode('!');
-    AddSon(t.root,'a');
-    AddSon(t.root,'b');
-    AddSon(t.root,'c');
-    AddSon(t.root->sons,'a');
-    AddSon(t.root->sons->sons,'a');
-    char test[100]="bleu\tbleu\tAdj:Mas+SG";
-    Add_basic_word(test,t);
-    char test2[100]="bleu";
-    p_letter_node temp=Go_to(test2,t);
-    char test3[100]="bleue\tbleu\tAdj:Fem+SG";
-    add_variate_word(temp->end_word,test3);
-    printf("%s\n",temp->end_word->variations_word[0].variation_bloc);*/
-
-    /*p_letter_node temp;
-    char test[TAILLE_MAX];
-    strcpy(test,"stabilisant");
-    temp=g.Verb_tree->root;
-    for(int i=0;i<10;i++)
+    while(buffer!=5)
     {
-        temp=temp->sons;
+        printf("\n###########################\n");
+        printf("Que souhaitez-vous faire ?\n\n");
+        printf("1 : generer un mot aleatoire \n");
+        printf("2 : generer une phrase aleatoire \n");
+        printf("3 : chercher un mot \n");
+        printf("4 : generer une phrase \n");
+        printf("5 : quitter le programme\n");
+        scanf("%d",&buffer);
+        switch(buffer)
+        {
+            case 1:
+                srand(time(NULL));
+                random=rand()%4;
+                switch(random)
+                {
+                    case 1: temp_tree=*g.Verb_tree;
+                    case 2: temp_tree=*g.Adj_tree;
+                    case 3: temp_tree=*g.Adv_tree;
+                    case 4: temp_tree=*g.Nom_tree;
+                }
+                temp_node=random_word(temp_tree);
+                printf("\nle mot aleatoire est: %s\n",temp_node->end_word->base_word);
+                break;
+            case 2:
+                srand(time(NULL));
+                random_base_sentence(g,test);
+                printf("\nPhrase aleatoire: %s\n",test);
+                break;
+            case 3:
+                find_word(g,directory_dico);
+                break;
+
+            case 4:
+            {
+                srand(time(NULL));
+                random_variate_sentence(g,test);
+                printf("%s\n",test);
+                break;
+            }
+            case 5:
+                printf("Le programme est ferme avec succes!\n");
+                break;
+            default:
+                printf("Merci de rentrer un nombre valide\n");
+        }
+        for (int k = 0; k < size_word; k++)
+        {
+            test[k] = 0; // vide la chaine de caractere test
+        }
     }
-    for(int i=0;i<temp->end_word->nb_variations;i++)
-    {
-        printf("Variation numero %d\n",i);
-        printf("%s   %s\n",temp->end_word->variations_word[i].word,temp->end_word->variations_word[i].variation_bloc);
-    }*/
+
     return 0;
 }
