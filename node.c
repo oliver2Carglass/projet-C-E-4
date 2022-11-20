@@ -1,12 +1,8 @@
-//
-// Created by raphb on 06/11/2022.
-//
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "node.h"
 
-p_letter_node CreateNode(char c)
+p_letter_node Create_Node(char c)
 {
     p_letter_node new;
     new=malloc(sizeof(t_letter_node));
@@ -39,7 +35,7 @@ void DisplayNode(t_letter_node n)
     }
 }
 
-int AddSon(p_letter_node p,char c)
+int Add_Son(p_letter_node p, char c)
 {
     if (p->nb_sons==ALPHABET_SIZE)
     {
@@ -50,7 +46,7 @@ int AddSon(p_letter_node p,char c)
     {
         p->nb_sons++;
         p->sons= malloc(1*sizeof(t_letter_node));
-        p->sons= CreateNode(c);
+        p->sons= Create_Node(c);
         //printf("Le noeud n'avait aucun fils, donc la lettre %c a ete ajoutee \n",c);
         return 1;//On renvoie 1 si la lettre a été ajoutée
     }
@@ -63,7 +59,7 @@ int AddSon(p_letter_node p,char c)
     {
         p->nb_sons++;
         p->sons=realloc(p->sons,p->nb_sons*sizeof(t_letter_node));//On agrandit la taille du tableau dynamique sons de une case
-        p->sons[p->nb_sons-1]= *CreateNode(c);
+        p->sons[p->nb_sons-1]= *Create_Node(c);
         //printf("Le noeud n'avait pas la lettre %c dans ses fils, la lettre a donc ete ajoutee\n",c);
         return 1;
     }
